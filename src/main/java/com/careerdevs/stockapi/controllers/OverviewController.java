@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -146,6 +147,23 @@ public class OverviewController {
             return ApiError.genericApiError(e);
         }
     }
+    @GetMapping("/exchange/{exchange}")
+    private ResponseEntity<?>getOverviewBySymbol(@PathVariable String exchange) {
+        try {
+            //datatype that may or may not contain a certain type
+            List<Overview> foundOverview = overviewRepository.findByExchange(exchange);
+            if (foundOverview.isEmpty()) {
+                ApiError.throwErr(404, exchange + "did not match any overview");
+            }
+            //Long userIdLong = Long.parseLong((id));
+            return ResponseEntity.ok(foundOverview);
+        } catch(HttpClientErrorException e) {
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+        } catch (Exception e) {
+            return ApiError.genericApiError(e);
+        }
+    }
+
     @DeleteMapping("/all")
     private ResponseEntity<?>deleteAllOverviews(){
         try{
