@@ -19,6 +19,14 @@ public class Overview {
     @Column(name = "asset_type", nullable = false)
     private String assetType;
 
+    @JsonProperty("Country")
+    @Column(name = "country", nullable = false)
+    private String country;
+
+    @JsonProperty("Currency")
+    @Column(name = "currency", nullable = false)
+    private String currency;
+
     @JsonProperty("Name")
     @Column(name = "name", nullable = false , unique = true)
     private String name;
@@ -36,6 +44,14 @@ public class Overview {
 
     public Overview(){
 
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 
     public long getId() {
@@ -76,6 +92,9 @@ public class Overview {
                 ", \"exchange\":\"" + exchange + '"' +
                 ", \"address\":\"" + address + '"' +
                 ", \"sector\":\"" + sector + '"' +
+                ", \"currency\":\"" + currency + '"' +
+                ", \"country\":\"" + country + '"' +
+
                 '}';
     }
 

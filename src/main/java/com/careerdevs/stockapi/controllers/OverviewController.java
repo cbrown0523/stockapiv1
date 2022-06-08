@@ -163,6 +163,54 @@ public class OverviewController {
             return ApiError.genericApiError(e);
         }
     }
+    @GetMapping("/assetType/{assetType}")
+    private ResponseEntity<?>getOverviewByAssetType(@PathVariable String assetType) {
+        try {
+            //datatype that may or may not contain a certain type
+            List<Overview> foundOverview = overviewRepository.findByAssetType(assetType);
+            if (foundOverview.isEmpty()) {
+                ApiError.throwErr(404, assetType + "did not match any overview");
+            }
+            //Long userIdLong = Long.parseLong((id));
+            return ResponseEntity.ok(foundOverview);
+        } catch(HttpClientErrorException e) {
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+        } catch (Exception e) {
+            return ApiError.genericApiError(e);
+        }
+    }
+    @GetMapping("/sector/{sector}")
+    private ResponseEntity<?>getOverviewBySector(@PathVariable String sector) {
+        try {
+            //datatype that may or may not contain a certain type
+            List<Overview> foundOverview = overviewRepository.findBySector(sector);
+            if (foundOverview.isEmpty()) {
+                ApiError.throwErr(404, sector + " did not match any overview" );
+            }
+            //Long userIdLong = Long.parseLong((id));
+            return ResponseEntity.ok(foundOverview);
+        } catch(HttpClientErrorException e) {
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+        } catch (Exception e) {
+            return ApiError.genericApiError(e);
+        }
+    }
+    @GetMapping("/country/{country}")
+    private ResponseEntity<?>getOverviewByCurrency(@PathVariable String country) {
+        try {
+            //datatype that may or may not contain a certain type
+            List<Overview> foundOverview = overviewRepository.findByCountry(country);
+            if (foundOverview.isEmpty()) {
+                ApiError.throwErr(404, country + "did not match any overview" );
+            }
+            //Long userIdLong = Long.parseLong((id));
+            return ResponseEntity.ok(foundOverview);
+        } catch(HttpClientErrorException e) {
+            return ApiError.customApiError(e.getMessage(), e.getStatusCode().value());
+        } catch (Exception e) {
+            return ApiError.genericApiError(e);
+        }
+    }
 
     @DeleteMapping("/all")
     private ResponseEntity<?>deleteAllOverviews(){
